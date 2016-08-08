@@ -18,6 +18,7 @@ class NewVisitorTest(unittest.TestCase):
         self.assertIn('Baccarat', header_text)
 
         play_button = self.browser.find_element_by_id('play_button_id')
+        self.assertEqual(play_button.text, 'Play')
         self.assertEqual(play_button.get_attribute('value'), 'Play')
         play_button.click()
 
