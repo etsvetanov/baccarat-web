@@ -19,10 +19,17 @@ class NewVisitorTest(unittest.TestCase):
 
         play_button = self.browser.find_element_by_id('play_button_id')
         self.assertEqual(play_button.text, 'Play')
-        self.assertEqual(play_button.get_attribute('value'), 'Play')
+        self.assertTrue(play_button.get_attribute('href').endswith('/play'))
         play_button.click()
 
         self.fail("finish test")
+
+    def test_play_page(self):
+        self.browser.get('http://localhost:8000/play')
+
+        self.assertIn('Play Baccarat', self.browser.title)
+        stats_table = self.browser.find_element_by_id('id_stats_table')
+
 
 if __name__ == '__main__':
     unittest.main()

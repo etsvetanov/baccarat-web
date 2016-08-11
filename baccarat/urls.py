@@ -19,5 +19,6 @@ from base import views
 
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
+    url(r'^play', views.play_page, name='play')
     # url(r'^admin/', admin.site.urls),
 ]
