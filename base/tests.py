@@ -4,6 +4,7 @@ from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 
 from base.views import home_page, play_page
+from base.models import Round
 
 # 1. unit tests should not test constants but logic, flow control, and configuration
 # 2. refactor only when unit tests are passing
@@ -35,4 +36,24 @@ class PlayPageTest(TestCase):
             'base/play.html',
             {'new_item_text': 'A new table item'})
         self.assertEqual(response.content.decode(), expected_html)
+
+
+class PlayerModelTest(TestCase):
+    def test_saving_and_retrieving_items(self):
+        first_round = Round()
+        first_round.number = 1
+        first_round.save()
+
+        second_round = Round()
+        second_round.number = 2
+        second_round.save()
+
+        saved_rounds = Round.objects.all()
+        self.assertEqual(saved_rounds.count(), 2)
+
+        first_round_saved = saved_rounds[0]
+        second_round_saved = saved_rounds[1]
+        self.assertEqual(first_round_saved.number, 1)
+        self.assertEqual(second_round_saved.number, 2)
+
 
