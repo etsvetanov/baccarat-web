@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+
+{% block header_text %}Session options{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-3">
+            <form id="id_options_form" method="post">
+                <div class="form-group">
+                    <label for="id_step_input">Step</label>
+                    <input type="number" class="form-control" name="step" id="id_step_input">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_pair_num_input">Pair number</label>
+                    <input type="number" class="form-control" name="pair_number" id="id_pair_num_input">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="id_starting_bet_input">Starting bet</label>
+                    <input type="number" class="form-control" name="starting_bet" id="id_starting_bet_input">
+                </div>
+
+                <p>Columns</p>
+                <div class="form-group">
+                    <label for="id_bet_column">Bet</label>
+                    <input type="checkbox" class="form-control" name="bet_column" id="id_bet_column">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_index_column">Index</label>
+                    <input type="checkbox" class="form-control" name="index_column" id="id_index_column">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_level_column">Level</label>
+                    <input type="checkbox" name="level_column" id="id_level_column">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_net_column">Net</label>
+                    <input type="checkbox" name="net_column" id="id_net_column">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_partner_column">Partner</label>
+                    <input type="checkbox" name="partner_column" id="id_partner_column">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_play_column">Play</label>
+                    <input type="checkbox" name="play_column" id="id_play_column">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_result_column">Result</label>
+                    <input type="checkbox" name="result_column" id="id_result_column">
+                </div>
+                
+                
+                    <label for="id_debt_column">Debt</label>
+                    <input type="checkbox" name="debt_column" id="id_debt_column">
+    
+                
+                
+                    <p>Rows</p>
+                    <label for="id_all_player_rows">All</label>
+                    <input type="radio" name="rows" value="ALL" id="id_all_player_rows" checked>
+                    <label for="id_real_player_rows">Real</label>
+                    <input type="radio" name="rows" value="RP" id="id_real_player_rows">
+                    <label for="id_virtual_player_rows">Virtual</label>
+                    <input type="radio" name="rows" value="VP" id="id_virtual_player_rows">
+    
+                    <input type="submit" id="id_submit_button">
+
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+
+    <table id="id_preview_table">
+
+    </table>
+
+{% endblock %}

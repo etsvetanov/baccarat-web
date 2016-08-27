@@ -1,10 +1,41 @@
-<html>
-    <head>
-        <title>Baccarat</title>
-    </head>
-    <body>
-        <h1>Baccarat</h1>
-        <a href="/play" id="play_button_id">Play</a>
-    </body>
+{% extends 'base/base.html' %}
 
-</html>
+{% block content %}
+        <div class="row top-buffer">
+            <div class="col-md-4 col-md-offset-4">
+                <h1 class="text-center">Baccarat menu</h1>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-2 col-md-offset-5">
+                <a href="/play" id="play_button_id" class="btn btn-default btn-lg btn-block" role="button">Play</a>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md-2 col-md-offset-5">
+                <a href="/options" id="id_options_button" class="btn btn-default btn-lg btn-block" role="button">Options</a>
+            </div>
+        </div>
+{% endblock %}
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+    <!--<head>-->
+        <!--<title>Baccarat</title>-->
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+        <!--<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">-->
+    <!--</head>-->
+    <!--<body>-->
+        <!--<h1>Baccarat</h1>-->
+        <!--<a href="/play" id="play_button_id">Play</a>-->
+        <!--<a href="/options" id="id_options_button">Options</a>-->
+
+        <!--<script src="http://code.jquery.com/jquery.js"></script>-->
+        <!--<script src="js/bootstrap.min.js"></script>-->
+    <!--</body>-->
+
+<!--</html>-->
