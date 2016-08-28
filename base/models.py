@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.db import models
 
+# when you make changes to the models, use mange.py migrate
 
 
 class Round(models.Model):
@@ -12,7 +13,7 @@ class Options(models.Model):
     OPTION_FIELDS = ('user', 'step', 'pair_number', 'starting_bet', 'bet_column', 'index_column', 'level_column',
                      'net_column', 'partner_column', 'play_column', 'result_column', 'debt_column', 'rows')
 
-    user = models.CharField(max_length=50, default='John')
+    # user = models.ForeignKey(User)
     step = models.IntegerField(default=1)
     pair_number = models.IntegerField(default=1)
     starting_bet = models.IntegerField(default=1)

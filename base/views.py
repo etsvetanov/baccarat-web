@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from base.models import Options
+from django.contrib.auth.models import User
 
 
 def home_page(request):
@@ -15,6 +16,7 @@ def play_page(request):
 def options(request):
     if request.method == 'POST':
         user_options = Options()
+        user_options.user = User.objects.get(username='john')
         for attr in Options.OPTION_FIELDS:
             if attr not in request.POST:
                 setattr(user_options, attr, False)

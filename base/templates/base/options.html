@@ -35,44 +35,50 @@
 
                 <div class="form-group">
                     <label for="id_level_column">Level</label>
-                    <input type="checkbox" name="level_column" id="id_level_column">
+                    <input type="checkbox" class="form-control" name="level_column" id="id_level_column">
                 </div>
                 
                 <div class="form-group">
                     <label for="id_net_column">Net</label>
-                    <input type="checkbox" name="net_column" id="id_net_column">
+                    <input type="checkbox" class="form-control" name="net_column" id="id_net_column">
                 </div>
                 
                 <div class="form-group">
                     <label for="id_partner_column">Partner</label>
-                    <input type="checkbox" name="partner_column" id="id_partner_column">
+                    <input type="checkbox" class="form-control" name="partner_column" id="id_partner_column">
                 </div>
                 
                 <div class="form-group">
                     <label for="id_play_column">Play</label>
-                    <input type="checkbox" name="play_column" id="id_play_column">
+                    <input type="checkbox" class="form-control" name="play_column" id="id_play_column">
                 </div>
                 
                 <div class="form-group">
                     <label for="id_result_column">Result</label>
-                    <input type="checkbox" name="result_column" id="id_result_column">
+                    <input type="checkbox" class="form-control" name="result_column" id="id_result_column">
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_debt_column">Debt</label>
+                    <input type="checkbox" class="form-control" name="debt_column" id="id_debt_column">
                 </div>
                 
                 
-                    <label for="id_debt_column">Debt</label>
-                    <input type="checkbox" name="debt_column" id="id_debt_column">
-    
-                
-                
                     <p>Rows</p>
+
+                <div class="form-group">
                     <label for="id_all_player_rows">All</label>
                     <input type="radio" name="rows" value="ALL" id="id_all_player_rows" checked>
+                </div>
+                <div class="form-group">
                     <label for="id_real_player_rows">Real</label>
                     <input type="radio" name="rows" value="RP" id="id_real_player_rows">
+                </div>
+                <div class="form-group">
                     <label for="id_virtual_player_rows">Virtual</label>
                     <input type="radio" name="rows" value="VP" id="id_virtual_player_rows">
-    
-                    <input type="submit" id="id_submit_button">
+                </div>
+                    <input type="submit" id="id_submit_button" class="btn btn-default">
 
                 {% csrf_token %}
             </form>
