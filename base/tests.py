@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 
 from base.views import home_page, play_page, options
 from base.models import Round, Options
+from django.contrib.auth.models import User
 
 # 1. unit tests should not test constants but logic, flow control, and configuration
 # 2. refactor only when unit tests are passing
@@ -68,15 +69,21 @@ class OptionsModelTest(TestCase):
         OPTION_FIELDS = Options.OPTION_FIELDS
 
         david_options = Options()
-        david_attributes = ('David', 2, 100, 1, False, True, True, True, True, True, True, True, 'ALL')
+        david_user = User(username='David')
+        david_user.save()
+        david_attributes = (2, 100, 1, False, True, True, True, True, True, True, True, 'ALL')
         for attr, option in zip(OPTION_FIELDS, david_attributes):
             setattr(david_options, attr, option)
+        david_options.user = david_user
         david_options.save()
-        derek_attributes = ('Derek', 3, 300, 2, True, True, True, True, True, True, True, False, 'RP')
 
+        derek_user = User(username='Derek')
+        derek_user.save()
+        derek_attributes = (3, 300, 2, True, True, True, True, True, True, True, False, 'RP')
         derek_options = Options()
         for attr, option in zip(OPTION_FIELDS, derek_attributes):
             setattr(derek_options, attr, option)
+        derek_options.user = derek_user
         derek_options.save()
 
         saved_options = Options.objects.all()
@@ -103,6 +110,8 @@ class OptionsPageTest(TestCase):
         expected_html = render_to_string('base/options.html')
 
     def test_options_page_can_save_a_POST_request(self):
+        # temp_user = User(username='temporary_user')
+        # temp_user.save()
         request = HttpRequest()
         request.method = 'POST'
         request.POST['step'] = 3

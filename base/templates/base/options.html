@@ -1,8 +1,69 @@
 {% extends 'base/base.html' %}
 
+{% block title %}Session options{% endblock %}
+
 {% block header_text %}Session options{% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-md-5">
+            <table id="id_preview_table" class="table table-bordered">
+                <tr>
+                    <th> </th>
+                    <th>[0]</th>
+                    <th>[1]</th>
+                    <th>[2]</th>
+                    <th>[3]</th>
+                    <th>[4]</th>
+                    <th>[5]</th>
+                    <th>[6]</th>
+                    <th>[7]</th>
+                    <th>[8]</th>
+                    <th>[9]</th>
+                </tr>
+                <tr id="table_level_1">
+                    <th>Level 1</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                </tr>
+                <tr id="table_level_2">
+                    <th>Level 2</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                </tr>
+                <tr id="table_level_3">
+                    <th>Level 3</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                    <th>x</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-3">
             <form id="id_options_form" method="post">
@@ -64,7 +125,7 @@
                 </div>
                 
                 
-                    <p>Rows</p>
+                <p>------Rows-----</p>
 
                 <div class="form-group">
                     <label for="id_all_player_rows">All</label>
@@ -85,8 +146,5 @@
         </div>
     </div>
 
-    <table id="id_preview_table">
-
-    </table>
 
 {% endblock %}
