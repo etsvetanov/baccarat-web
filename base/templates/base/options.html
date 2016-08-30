@@ -23,42 +23,42 @@
                 </tr>
                 <tr id="table_level_1">
                     <th>Level 1</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
                 </tr>
                 <tr id="table_level_2">
                     <th>Level 2</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
                 </tr>
                 <tr id="table_level_3">
                     <th>Level 3</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
-                    <th>x</th>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
+                    <td>x</td>
                 </tr>
             </table>
         </div>
@@ -69,18 +69,18 @@
             <form id="id_options_form" method="post">
                 <div class="form-group">
                     <label for="id_step_input">Step</label>
-                    <input type="number" class="form-control" name="step" id="id_step_input">
+                    <input type="number" class="form-control preview" name="step" id="id_step_input">
                 </div>
 
                 <div class="form-group">
                     <label for="id_pair_num_input">Pair number</label>
-                    <input type="number" class="form-control" name="pair_number" id="id_pair_num_input">
+                    <input type="number" class="form-control preview" name="pair_number" id="id_pair_num_input">
                 </div>
 
 
                 <div class="form-group">
                     <label for="id_starting_bet_input">Starting bet</label>
-                    <input type="number" class="form-control" name="starting_bet" id="id_starting_bet_input">
+                    <input type="number" class="form-control preview" name="starting_bet" id="id_starting_bet_input">
                 </div>
 
                 <p>Columns</p>
@@ -146,5 +146,9 @@
         </div>
     </div>
 
+{% endblock %}
 
+{% block scripts %}
+        <script src="/static/js/jquery-3.1.0.min.js"></script>
+        <script src="/static/js/options.js"></script>
 {% endblock %}
