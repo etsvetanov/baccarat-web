@@ -6,15 +6,16 @@ function update_preview() {
     var mplier = $('id_step_input').val();
 
     for(var j=0; j < 3; j++) {
-        var tr = $('table_level_' + j);
+        var tr = $('#table_level_' + j);
         tr.children('td').each(function(i) {
             var cell_value = base_row[i] * sb * Math.pow(mplier, j);
-            this.val(cell_value);
+            this.innerText = cell_value;
         })
 
     }
 };
 
 $(document).ready(function() {
-    $('.preview').on("onchange", update_preview);
+    $('.preview').on("change", update_preview);
+    update_preview();
 });

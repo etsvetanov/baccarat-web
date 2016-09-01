@@ -79,14 +79,17 @@ WSGI_APPLICATION = 'baccarat.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+if DEBUG:
+    db_host = '192.168.0.102'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'baccarat',
         'USER': 'django',
         'PASSWORD': os.environ['DB_PASS'],
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': db_host,
+        'PORT': '5432',
     }
 }
 
