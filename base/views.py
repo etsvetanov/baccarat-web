@@ -15,9 +15,8 @@ def play_page(request):
 
 def options(request):
     if request.method == 'POST':
-        user_options = Options()
-        user = User(username='john')
-        user.save()
+        user = User.objects.get(username='john')
+        user_options = Options(user=user)
 
         current_user = User.objects.get(username='john')
         user_options.user = current_user
@@ -35,4 +34,31 @@ def options(request):
 
         return redirect('/')
 
-    return render(request, 'base/options.html')
+    columns = ['Bet', 'Index', 'Level', 'Net', 'Partner', 'Play', 'Result', 'Debt']
+    inputs = {'starting_bet':
+                  {'name': 'Starting bet',
+                   'min': 0.1,
+                   'max': 100,
+                   'step': 0.1,
+                   'default': 1
+                   },
+              'step':
+                  {'name': 'Step',
+                   'min': 2,
+                   'max': 5,
+                   'step': 1,
+                   'default': 2
+                   },
+              'pairs':
+                  {'name': 'Pairs',
+                   'min': 1,
+                   'max': 50,
+                   'step': 1,
+                   'default': 1
+                   }
+              }
+
+    return render(request, 'base/options.html', context={
+        'columns': columns,
+        'inputs': inputs
+    })

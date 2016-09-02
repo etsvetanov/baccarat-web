@@ -2,7 +2,10 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 
-# when you make changes to the models, use mange.py migrate
+
+# when you make changes to the models
+# run - python manage.py makemigrations
+# then - python manage.py migrate
 
 
 class Round(models.Model):
@@ -16,7 +19,7 @@ class Options(models.Model):
     user = models.ForeignKey(User, null=True)
     step = models.IntegerField(default=1)
     pair_number = models.IntegerField(default=1)
-    starting_bet = models.IntegerField(default=1)
+    starting_bet = models.FloatField(default=1)
     bet_column = models.BooleanField(default=True)
     index_column = models.BooleanField(default=True)
     level_column = models.BooleanField(default=True)

@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'baccarat.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 if DEBUG:
-    db_host = '192.168.0.102'
+    db_host = '37.143.206.65'
 
 DATABASES = {
     'default': {
