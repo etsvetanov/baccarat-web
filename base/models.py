@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # when you make changes to the models
@@ -17,9 +18,24 @@ class Options(models.Model):
                      'net_column', 'partner_column', 'play_column', 'result_column', 'debt_column', 'rows')
 
     user = models.ForeignKey(User, null=True)
-    step = models.IntegerField(default=2)
-    pair_number = models.IntegerField(default=2)
-    starting_bet = models.FloatField(default=1)
+
+    step = models.PositiveIntegerField(
+        default=2,
+        validators=[MinValueValidator(2),
+                    MaxValueValidator(10)]
+    )
+
+    pair_number = models.PositiveIntegerField(
+        default=2,
+        validators=[MinValueValidator(1),
+                    MaxValueValidator(100)]
+    )
+    starting_bet = models.FloatField(
+        default=1,
+        validators=[MinValueValidator(0.1),
+                    MaxValueValidator(100)]
+    )
+
     bet_column = models.BooleanField(default=True)
     index_column = models.BooleanField(default=True)
     level_column = models.BooleanField(default=True)
