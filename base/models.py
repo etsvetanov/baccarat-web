@@ -25,7 +25,7 @@ class Options(models.Model):
                     MaxValueValidator(10)]
     )
 
-    pair_number = models.PositiveIntegerField(
+    pairs = models.PositiveIntegerField(
         default=2,
         validators=[MinValueValidator(1),
                     MaxValueValidator(100)]
