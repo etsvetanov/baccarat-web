@@ -110,8 +110,8 @@ class OptionsPageTest(TestCase):
         expected_html = render_to_string('base/options.html')
 
     def test_options_page_can_save_a_POST_request(self):
-        # temp_user = User(username='temporary_user')
-        # temp_user.save()
+        temp_user = User(username='john')
+        temp_user.save()
         request = HttpRequest()
         request.method = 'POST'
         request.POST['step'] = 3
@@ -130,6 +130,9 @@ class OptionsPageTest(TestCase):
         self.assertEqual(new_options.rows, 'VP')
 
     def test_options_page_redirects_after_POST(self):
+        temp_user = User(username='john')
+        temp_user.save()
+
         request = HttpRequest()
         request.method = 'POST'
         request.POST['step'] = 3

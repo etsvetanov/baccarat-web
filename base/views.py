@@ -15,11 +15,14 @@ def play_page(request):
 
 def options(request):
     if request.method == 'POST':
-        user = User.objects.get(username='john')
-        user_options = Options(user=user)
 
         current_user = User.objects.get(username='john')
-        user_options.user = current_user
+
+        try:
+            user_options = Options.objects.get(user=current_user)
+        except Options.DoesNotExist:
+            user_options = Options(user=current_user)
+            user_options.save()
 
         for attr in Options.OPTION_FIELDS:
             if attr not in request.POST:

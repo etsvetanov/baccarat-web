@@ -4,10 +4,7 @@ import unittest
 
 
 class NewVisitorTest(LiveServerTestCase):
-    options_form_elements = ('id_step_input',
-                             'id_pair_num_input',
-                             'id_starting_bet_input',
-                             'id_bet_column',
+    options_form_elements = ('id_bet_column',
                              'id_index_column',
                              'id_level_column',
                              'id_net_column',
@@ -21,8 +18,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
-        self.browser.refresh()
-        self.browser.quit()
+        try:
+            self.browser.refresh()
+            self.browser.quit()
+        except ConnectionResetError:
+            print('Browser was closed!')
 
     def test_can_open_page(self):
         self.browser.get(self.live_server_url)
@@ -42,8 +42,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertEqual(options_button.text, 'Options')
         self.assertTrue(options_button.get_attribute('href').endswith('/options'))
 
-        self.fail("finish test")
-
     def test_play_page(self):
         self.browser.get(self.live_server_url + '/play')
 
@@ -59,7 +57,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertEqual(form.get_attribute('method'), 'post')
 
         step_input = self.browser.find_element_by_id('id_step_input')
-        pair_num_input = self.browser.find_element_by_id('id_pair_num_input')
+        pair_num_input = self.browser.find_element_by_id('id_pairs_input')
         starting_bet_input = self.browser.find_element_by_id('id_starting_bet_input')
         column_bet = self.browser.find_element_by_id('id_bet_column')
         column_index = self.browser.find_element_by_id('id_index_column')
@@ -78,15 +76,15 @@ class NewVisitorTest(LiveServerTestCase):
 
         submit_button = self.browser.find_element_by_id('id_submit_button')
 
-    def test_layout_and_styling(self):
+    def test_options_layout_and_styling(self):
         self.browser.get(self.live_server_url + '/options')
         self.browser.set_window_size(1024, 768)
 
         form_elements = [self.browser.find_element_by_id(id)
                          for id in self.options_form_elements]
 
-        for i, element in enumerate(form_elements):
-            self.assertTrue(element.location['x'] < form_elements[i+1].location['x'])
+        for i in range(len(form_elements) - 1):
+            self.assertTrue(form_elements[i].location['y'] < form_elements[i+1].location['y'])
 
 
 if __name__ == '__main__':
