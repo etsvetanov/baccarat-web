@@ -13,12 +13,12 @@ class Round(models.Model):
 
 
 class Options(models.Model):
-    OPTION_FIELDS = ('step', 'pair_number', 'starting_bet', 'bet_column', 'index_column', 'level_column',
+    OPTION_FIELDS = ('step', 'pairs', 'starting_bet', 'bet_column', 'index_column', 'level_column',
                      'net_column', 'partner_column', 'play_column', 'result_column', 'debt_column', 'rows')
 
     user = models.ForeignKey(User, null=True)
-    step = models.IntegerField(default=1)
-    pair_number = models.IntegerField(default=1)
+    step = models.IntegerField(default=2)
+    pair_number = models.IntegerField(default=2)
     starting_bet = models.FloatField(default=1)
     bet_column = models.BooleanField(default=True)
     index_column = models.BooleanField(default=True)
