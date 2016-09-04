@@ -74,60 +74,58 @@
     <div class="col-md-3">
         <form id="id_options_form" method="post">
 
-            {% for key, value in inputs.items %}
-                <div class="form-group">
-                    <label for="id_{{ key }}_input"> {{ value.name }} </label>
-                    <div class="input-group input-group-lg">
+            {% for field in input_fields %}
+            <div class="form-group">
+                <label for="{{ field.auto_id }}"> {{  field.label }} </label>
+                <div class="input-group input-group-lg">
 
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary decr" data-target="#id_{{ key }}_input"> - </button>
-                        </span>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary decr" data-target="#{{ field.auto_id }}"> - </button>
+                    </span>
 
-                        <input type="number" class="form-control preview centered_input" value="{{ value.default }}"
-                               name="{{ key }}" id="id_{{ key }}_input" min="{{ value.min }}" max="{{ value.max }}"
-                               step="{{ value.step }}">
+                    {{ field }}
 
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-primary incr" data-target="#id_{{ key }}_input"> + </button>
-                        </span>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary incr" data-target="#{{ field.auto_id }}"> + </button>
+                    </span>
 
-                    </div>
                 </div>
+            </div>
             {% endfor %}
 
 
-            <h4>Columns</h4>
+            <!--<h4>Columns</h4>-->
 
-            {% for column in columns %}
+            {% for field in checkbox_fields %}
                 <div class="checkbox">
-                    <label for="id_{{ column.lower }}_column">
-                        <input type="checkbox" name="{{ column.lower }}_column" id="id_{{ column.lower }}_column"> {{ column }}
+                    <label for="{{ field.auto_id }}">
+                        {{ field }} {{ field.label }}
                     </label>
                 </div>
             {% endfor %}
 
 
-            <h4>Rows</h4>
+            <!--<h4>Rows</h4>-->
 
-            <div class="radio">
-                <label for="id_all_player_rows">
-                    <input type="radio" name="rows" value="ALL" id="id_all_player_rows" checked>All
-                </label>
-            </div>
+            <!--<div class="radio">-->
+                <!--<label for="id_all_player_rows">-->
+                    <!--<input type="radio" name="rows" value="ALL" id="id_all_player_rows" checked>All-->
+                <!--</label>-->
+            <!--</div>-->
 
-            <div class="radio">
-                <label for="id_real_player_rows">
-                    <input type="radio" name="rows" value="RP" id="id_real_player_rows">Real
-                </label>
-            </div>
+            <!--<div class="radio">-->
+                <!--<label for="id_real_player_rows">-->
+                    <!--<input type="radio" name="rows" value="RP" id="id_real_player_rows">Real-->
+                <!--</label>-->
+            <!--</div>-->
 
-            <div class="radio">
-                <label for="id_virtual_player_rows">
-                    <input type="radio" name="rows" value="VP" id="id_virtual_player_rows">Virtual
-                </label>
-            </div>
+            <!--<div class="radio">-->
+                <!--<label for="id_virtual_player_rows">-->
+                    <!--<input type="radio" name="rows" value="VP" id="id_virtual_player_rows">Virtual-->
+                <!--</label>-->
+            <!--</div>-->
 
-            <input type="submit" id="id_submit_button" class="btn btn-default">
+            <!--<input type="submit" id="id_submit_button" class="btn btn-default">-->
 
             {% csrf_token %}
         </form>
@@ -143,4 +141,5 @@
 <script src="/static/js/jquery-3.1.0.min.js"></script>
 <script src="/static/js/options.js"></script>
 {% endblock %}
+
 

@@ -14,9 +14,6 @@ class Round(models.Model):
 
 
 class Options(models.Model):
-    OPTION_FIELDS = ('step', 'pairs', 'starting_bet', 'bet_column', 'index_column', 'level_column',
-                     'net_column', 'partner_column', 'play_column', 'result_column', 'debt_column', 'rows')
-
     user = models.ForeignKey(User, null=True)
 
     step = models.PositiveIntegerField(
@@ -54,5 +51,4 @@ class Options(models.Model):
         (ALL, 'All players')
     )
 
-    rows = models.CharField(max_length=3, choices=OPTIONS_ROWS_CHOICES,
-                            default=ALL)
+    rows = models.CharField(max_length=3, choices=OPTIONS_ROWS_CHOICES, default=ALL)
