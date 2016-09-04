@@ -66,22 +66,23 @@ class PlayerModelTest(TestCase):
 
 class OptionsModelTest(TestCase):
     def test_saving_and_retrieving_items(self):
-        OPTION_FIELDS = Options.OPTION_FIELDS
+        # this should skip 'id' and 'user' fields
+        fields = [field.name for field in Options._meta.fields if field.name not in ('id', 'user')]
 
         david_options = Options()
         david_user = User(username='David')
         david_user.save()
-        david_attributes = (2, 100, 1, False, True, True, True, True, True, True, True, 'ALL')
-        for attr, option in zip(OPTION_FIELDS, david_attributes):
+        david_attributes = (2, 100, 1, False, True, True, True, True, True, True, True, True, False)
+        for attr, option in zip(fields, david_attributes):
             setattr(david_options, attr, option)
         david_options.user = david_user
         david_options.save()
 
         derek_user = User(username='Derek')
         derek_user.save()
-        derek_attributes = (3, 300, 2, True, True, True, True, True, True, True, False, 'RP')
+        derek_attributes = (3, 300, 2, True, True, True, True, True, True, True, False, False, True)
         derek_options = Options()
-        for attr, option in zip(OPTION_FIELDS, derek_attributes):
+        for attr, option in zip(fields, derek_attributes):
             setattr(derek_options, attr, option)
         derek_options.user = derek_user
         derek_options.save()
@@ -92,10 +93,10 @@ class OptionsModelTest(TestCase):
         david_options_saved = saved_options[0]
         derek_options_saved = saved_options[1]
 
-        self.assertEqual([getattr(david_options, attr) for attr in OPTION_FIELDS],
-                         [getattr(david_options_saved, attr) for attr in OPTION_FIELDS])
-        self.assertEqual([getattr(derek_options, attr) for attr in OPTION_FIELDS],
-                         [getattr(derek_options_saved, attr) for attr in OPTION_FIELDS])
+        self.assertEqual([getattr(david_options, attr) for attr in fields],
+                         [getattr(david_options_saved, attr) for attr in fields])
+        self.assertEqual([getattr(derek_options, attr) for attr in fields],
+                         [getattr(derek_options_saved, attr) for attr in fields])
 
 
 class OptionsPageTest(TestCase):
@@ -104,6 +105,9 @@ class OptionsPageTest(TestCase):
         self.assertEqual(found.func, options)
 
     def test_options_page_returns_correct_html(self):
+        temp_user = User(username='john')
+        temp_user.save()
+
         request = HttpRequest()
         response = options(request)
         self.assertIn('Session options', response.content.decode())
@@ -115,19 +119,22 @@ class OptionsPageTest(TestCase):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['step'] = 3
-        request.POST['pair_number'] = 3
-        request.POST['starting_bet'] = 3
+        request.POST['pairs'] = 4
+        request.POST['starting_bet'] = 5
         request.POST['bet_column'] = 'on'
         request.POST['level_column'] = 'on'
         request.POST['net_column'] = 'on'
         request.POST['partner_column'] = 'on'
-        request.POST['rows'] = 'VP'
+        request.POST['real_player_rows'] = 'on'
 
         response = options(request)
 
         self.assertEqual(Options.objects.count(), 1)
         new_options = Options.objects.first()
-        self.assertEqual(new_options.rows, 'VP')
+        self.assertEqual(new_options.real_player_rows, True)
+        self.assertEqual(new_options.step, 3)
+        self.assertEqual(new_options.pairs, 4)
+        self.assertEqual(new_options.starting_bet, 5)
 
     def test_options_page_redirects_after_POST(self):
         temp_user = User(username='john')
@@ -136,13 +143,9 @@ class OptionsPageTest(TestCase):
         request = HttpRequest()
         request.method = 'POST'
         request.POST['step'] = 3
-        request.POST['pair_number'] = 3
+        request.POST['pairs'] = 3
         request.POST['starting_bet'] = 3
-        request.POST['bet_column'] = 'on'
-        request.POST['level_column'] = 'on'
-        request.POST['net_column'] = 'on'
-        request.POST['partner_column'] = 'on'
-        request.POST['rows'] = 'VP'
+
 
         response = options(request)
 
