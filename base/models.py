@@ -22,14 +22,15 @@ class Options(models.Model):
                     MaxValueValidator(10)]
     )
 
-    pairs = models.PositiveIntegerField(
-        default=2,
-        validators=[MinValueValidator(1),
-                    MaxValueValidator(100)]
-    )
     starting_bet = models.FloatField(
         default=1,
         validators=[MinValueValidator(0.1),
+                    MaxValueValidator(100)]
+    )
+
+    pairs = models.PositiveIntegerField(
+        default=2,
+        validators=[MinValueValidator(1),
                     MaxValueValidator(100)]
     )
 
@@ -42,13 +43,6 @@ class Options(models.Model):
     result_column = models.BooleanField(default=True)
     debt_column = models.BooleanField(default=True)
 
-    REAL = 'RP'
-    VIRTUAL = 'VP'
-    ALL = 'ALL'
-    OPTIONS_ROWS_CHOICES = (
-        (REAL, 'Real players'),
-        (VIRTUAL, 'Virtual players'),
-        (ALL, 'All players')
-    )
+    real_player_rows = models.BooleanField(default=True)
+    virtual_play_rows = models.BooleanField(default=True)
 
-    rows = models.CharField(max_length=3, choices=OPTIONS_ROWS_CHOICES, default=ALL)
