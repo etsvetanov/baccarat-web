@@ -16,13 +16,10 @@ class NumberInput(TextInput):
         return self.__class__
 
 
-
 class OptionsForm(ModelForm):
     class Meta:
         model = Options
         exclude = ['user']
-
-        step = IntegerField(min_value=2, max_value=11)
 
         widgets = {
             'starting_bet': TextInput(attrs={

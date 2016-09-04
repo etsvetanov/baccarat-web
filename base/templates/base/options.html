@@ -94,9 +94,9 @@
             {% endfor %}
 
 
-            <!--<h4>Columns</h4>-->
+            <h4>Columns</h4>
 
-            {% for field in checkbox_fields %}
+            {% for field in column_fields %}
                 <div class="checkbox">
                     <label for="{{ field.auto_id }}">
                         {{ field }} {{ field.label }}
@@ -104,28 +104,17 @@
                 </div>
             {% endfor %}
 
+            <h4>Rows</h4>
 
-            <!--<h4>Rows</h4>-->
+            {% for field in row_fields %}
+                <div class="checkbox">
+                    <label for="{{ field.auto_id }}">
+                        {{ field }} {{ field.label }}
+                    </label>
+                </div>
+            {% endfor %}
 
-            <!--<div class="radio">-->
-                <!--<label for="id_all_player_rows">-->
-                    <!--<input type="radio" name="rows" value="ALL" id="id_all_player_rows" checked>All-->
-                <!--</label>-->
-            <!--</div>-->
-
-            <!--<div class="radio">-->
-                <!--<label for="id_real_player_rows">-->
-                    <!--<input type="radio" name="rows" value="RP" id="id_real_player_rows">Real-->
-                <!--</label>-->
-            <!--</div>-->
-
-            <!--<div class="radio">-->
-                <!--<label for="id_virtual_player_rows">-->
-                    <!--<input type="radio" name="rows" value="VP" id="id_virtual_player_rows">Virtual-->
-                <!--</label>-->
-            <!--</div>-->
-
-            <!--<input type="submit" id="id_submit_button" class="btn btn-default">-->
+            <input type="submit" id="id_submit_button" class="btn btn-default">
 
             {% csrf_token %}
         </form>
