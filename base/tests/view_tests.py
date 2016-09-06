@@ -104,14 +104,20 @@ class OptionsPageTest(TestCase):
         found = resolve('/options')
         self.assertEqual(found.func, options)
 
-    def test_options_page_returns_correct_html(self):
+    def test_options_page_contains_heading(self):
         temp_user = User(username='john')
         temp_user.save()
 
         request = HttpRequest()
         response = options(request)
         self.assertIn('Session options', response.content.decode())
-        expected_html = render_to_string('base/options.html')
+
+    def test_uses_options_template(self):
+        temp_user = User(username='john')
+        temp_user.save()
+
+        response = self.client.get('/options')
+        self.assertTemplateUsed(response, 'base/options.html')
 
     def test_options_page_can_save_a_POST_request(self):
         temp_user = User(username='john')
