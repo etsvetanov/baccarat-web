@@ -44,5 +44,5 @@ class Options(models.Model):
     debt_column = models.BooleanField(default=True)
 
     real_player_rows = models.BooleanField(default=True)
-    virtual_play_rows = models.BooleanField(default=True)
+    virtual_player_rows = models.BooleanField(default=True)
 

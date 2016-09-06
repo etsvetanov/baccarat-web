@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 
+from base.forms import OptionsForm
 from base.views import home_page, play_page, options
 from base.models import Round, Options
 from django.contrib.auth.models import User
@@ -65,6 +66,10 @@ class PlayerModelTest(TestCase):
 
 
 class OptionsModelTest(TestCase):
+    def test_options_page_uses_options_form(self):
+        response = self.client.get('/options')
+        self.assertIsInstance(response.context['form'], OptionsForm)
+
     def test_saving_and_retrieving_items(self):
         # this should skip 'id' and 'user' fields
         fields = [field.name for field in Options._meta.fields if field.name not in ('id', 'user')]

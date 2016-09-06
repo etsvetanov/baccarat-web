@@ -1,9 +1,13 @@
-from django.test import LiveServerTestCase
+from django.test import LiveServerTestCase, override_settings
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
+import sys
+
+from django.contrib.auth.models import User
 import unittest
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     options_form_elements = ('id_bet_column',
                              'id_index_column',
                              'id_level_column',
@@ -12,6 +16,20 @@ class NewVisitorTest(LiveServerTestCase):
                              'id_play_column',
                              'id_result_column',
                              'id_debt_column')
+
+    @classmethod
+    def setUpClass(cls):
+        for arg in sys.argv:
+            if 'liveserver' in arg:
+                cls.server_url = 'httpL//' + arg.split('=')[1]
+                return
+            super().setUpClass()
+            cls.server_url = cls.live_server_url
+
+    @classmethod
+    def tearDownClass(cls):
+        if cls.server_url == cls.live_server_url:
+            super().tearDownClass()
 
     def setUp(self):
         self.browser = webdriver.Chrome()
@@ -25,7 +43,7 @@ class NewVisitorTest(LiveServerTestCase):
             print('Browser was closed!')
 
     def test_can_open_page(self):
-        self.browser.get(self.live_server_url)
+        self.browser.get(self.server_url)
 
         self.assertIn('Baccarat', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -43,22 +61,24 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertTrue(options_button.get_attribute('href').endswith('/options'))
 
     def test_play_page(self):
-        self.browser.get(self.live_server_url + '/play')
+        self.browser.get(self.server_url + '/play')
 
         self.assertIn('Play Baccarat', self.browser.title)
         stats_table = self.browser.find_element_by_id('id_stats_table')
 
     def test_options_page(self):
-        self.browser.get(self.live_server_url + '/options')
+        john = User(username='john')
+        john.save()
+        self.browser.get(self.server_url + '/options')
 
         self.assertIn('Session options', self.browser.title)
 
         form = self.browser.find_element_by_id('id_options_form')
         self.assertEqual(form.get_attribute('method'), 'post')
 
-        step_input = self.browser.find_element_by_id('id_step_input')
-        pair_num_input = self.browser.find_element_by_id('id_pairs_input')
-        starting_bet_input = self.browser.find_element_by_id('id_starting_bet_input')
+        step_input = self.browser.find_element_by_id('id_step')
+        pair_num_input = self.browser.find_element_by_id('id_pairs')
+        starting_bet_input = self.browser.find_element_by_id('id_starting_bet')
         column_bet = self.browser.find_element_by_id('id_bet_column')
         column_index = self.browser.find_element_by_id('id_index_column')
         column_level = self.browser.find_element_by_id('id_level_column')
@@ -70,14 +90,17 @@ class NewVisitorTest(LiveServerTestCase):
 
         real_player_rows = self.browser.find_element_by_id('id_real_player_rows')
         virtual_player_rows = self.browser.find_element_by_id('id_virtual_player_rows')
-        both_player_rows = self.browser.find_element_by_id('id_all_player_rows')
+
 
         preview_table = self.browser.find_element_by_id('id_preview_table')
 
         submit_button = self.browser.find_element_by_id('id_submit_button')
 
+    @override_settings(DEBUG=True)
     def test_options_layout_and_styling(self):
-        self.browser.get(self.live_server_url + '/options')
+        user = User(username='john')
+        user.save()
+        self.browser.get(self.server_url + '/options')
         self.browser.set_window_size(1024, 768)
 
         form_elements = [self.browser.find_element_by_id(id)
@@ -87,5 +110,7 @@ class NewVisitorTest(LiveServerTestCase):
             self.assertTrue(form_elements[i].location['y'] < form_elements[i+1].location['y'])
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+# we don't need 'main' since we are using the Django test runner to launch the FT
+# if __name__ == '__main__':
+#     unittest.main()

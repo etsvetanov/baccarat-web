@@ -44,7 +44,7 @@ def options(request):
                      form['result_column'],
                      form['debt_column'])
 
-    row_fields = (form['virtual_play_rows'], form['real_player_rows'])
+    row_fields = (form['virtual_player_rows'], form['real_player_rows'])
 
     return render(request=request,
                   template_name='base/options.html',

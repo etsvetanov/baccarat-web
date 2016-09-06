@@ -12,9 +12,6 @@ INPUT_CLASSES = 'form-control preview centered_input'
 class NumberInput(TextInput):
     input_type = 'number'
 
-    def get_class(self):
-        return self.__class__
-
 
 class OptionsForm(ModelForm):
     class Meta:
@@ -22,19 +19,19 @@ class OptionsForm(ModelForm):
         exclude = ['user']
 
         widgets = {
-            'starting_bet': TextInput(attrs={
+            'starting_bet': NumberInput(attrs={
                 'min': 0.1,
                 'max': 100,
                 'step': 0.1,
                 'class': INPUT_CLASSES
             }),
-            'step': TextInput(attrs={
+            'step': NumberInput(attrs={
                 'min': 2,
                 'max': 10,
                 'step': 1,
                 'class': INPUT_CLASSES
             }),
-            'pairs': TextInput(attrs={
+            'pairs': NumberInput(attrs={
                 'min': 1,
                 'max': 100,
                 'step': 1,
