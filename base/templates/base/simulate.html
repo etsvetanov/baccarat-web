@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% block title %} Simulation session {% endblock %}
+
+{% block header_text %} Simulation session {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-8">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
+            style="width: 60%;">
+                <span class="sr-only">Loading</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-8">
+        <table id="id_round_info" class="table table-bordered">
+            <tr>
+                {% for column in columns %}
+                    <th> {{ column }} </th>
+                {% endfor %}
+            </tr>
+            {% for row in rows %}
+                <tr>
+                    <th> {{ row.name }} </th>
+                    {% for item in row.data %}
+                        <td> {{ item }} </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

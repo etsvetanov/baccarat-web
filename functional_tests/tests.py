@@ -59,6 +59,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
         options_button = self.browser.find_element_by_id('id_options_button')
         self.assertEqual(options_button.text, 'Options')
         self.assertTrue(options_button.get_attribute('href').endswith('/options'))
+        # ----
+        simulate_button = self.browser.find_element_by_id('id_simulate_button')
+        self.assertEqual(simulate_button.text, 'Simulate')
+        self.assertTrue(play_button.get_attribute('href').endswith('/simulate'))
 
     def test_play_page(self):
         self.browser.get(self.server_url + '/play')
@@ -108,6 +112,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
         for i in range(len(form_elements) - 1):
             self.assertTrue(form_elements[i].location['y'] < form_elements[i+1].location['y'])
+
+    def test_simulate_page(self):
+        self.browser.get(self.server_url + '/simulate')
+
+        round_info_table = self.browser.find_element_by_id('id_round_info')
 
 
 

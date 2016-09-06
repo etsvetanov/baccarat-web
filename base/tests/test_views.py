@@ -4,7 +4,7 @@ from django.core.urlresolvers import resolve
 from django.template.loader import render_to_string
 
 from base.forms import OptionsForm
-from base.views import home_page, play_page, options
+from base.views import home_page, play_page, options, simulate
 from base.models import Round, Options
 from django.contrib.auth.models import User
 
@@ -19,12 +19,12 @@ class HomePageTest(TestCase):
         self.assertEqual(found.func, home_page)
 
     def test_home_page_returns_correct_html(self):
-        # response = self.client.get('/')
-        # self.assertTemplateUsed(response, 'base/home.html')
-        request = HttpRequest()
-        response = home_page(request)
-        expected_html = render_to_string('base/home.html')
-        self.assertEqual(response.content.decode(), expected_html)
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'base/home.html')
+        # request = HttpRequest()
+        # response = home_page(request)
+        # expected_html = render_to_string('base/home.html')
+        # self.assertEqual(response.content.decode(), expected_html)
 
 
 class PlayViewTest(TestCase):
@@ -68,7 +68,12 @@ class PlayerModelTest(TestCase):
 
 
 class OptionsModelTest(TestCase):
+    def setUp(self):
+        temp_user = User(username='john')
+        temp_user.save()
+
     def test_options_page_uses_options_form(self):
+
         response = self.client.get('/options')
         self.assertIsInstance(response.context['form'], OptionsForm)
 
@@ -104,6 +109,20 @@ class OptionsModelTest(TestCase):
                          [getattr(david_options_saved, attr) for attr in fields])
         self.assertEqual([getattr(derek_options, attr) for attr in fields],
                          [getattr(derek_options_saved, attr) for attr in fields])
+
+
+class SimulatePageTest(TestCase):
+    def test_simulate_url_resolves_to_options_page_view(self):
+        found = resolve('/simulate')
+        self.assertEqual(found.func, simulate)
+
+    def test_simulate_page_contains_heading(self):
+        response = self.client.get('/simulate')
+        self.assertIn('Simulation', response.content.decode())
+
+    def test_simulate_page_uses_simulate_template(self):
+        response = self.client.get('/simulate')
+        self.assertTemplateUsed(response, 'base/simulate.html')
 
 
 class OptionsPageTest(TestCase):

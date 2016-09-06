@@ -56,3 +56,15 @@ def options(request):
                       'input_field': IntegerField,
                       'check_box_field': BooleanField
                   })
+
+
+def simulate(request):
+    return render(request=request,
+                  template_name='base/simulate.html',
+                  context={
+                      'columns': ['', 'bet', 'outcome'],
+                      'rows': [
+                          {'name': 'P1', 'data': [1, 'W']},
+                          {'name': 'P2', 'data': [3, 'L']}
+                      ]
+                  })
