@@ -59,6 +59,27 @@ def options(request):
 
 
 def simulate(request):
+    current_user = User.objects.get(username='John')
+
+    options_set = current_user.options_set
+
+    assert options_set.count() == 1
+
+    user_options = options_set.get()
+
+    columns = [field.name for field in user_options._meta.get_fields()
+               if field.name.endswith('column') and getattr(user_options, field.name)]
+
+    rows = [field.name for field in user_options._meta.get_fields()
+            if field.name.endswith('row') and getattr(user_options, field.name)]
+
+    context = {
+        'columns': columns,
+
+    }
+
+
+
     return render(request=request,
                   template_name='base/simulate.html',
                   context={

@@ -11,6 +11,17 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Round(models.Model):
     number = models.IntegerField(default=0)
+    user = models.ForeignKey(User, null=True)
+
+    bet_column = models.FloatField(null=True)
+    index_column = models.IntegerField(null=True)
+    level_column = models.IntegerField(null=True)
+    net_column = models.FloatField(null=True)
+    partner_column = models.CharField(null=True, max_length=3)
+    play_column = models.CharField(null=True, max_length=1)
+    result_column = models.CharField(null=True, max_length=1)
+    debt_column = models.FloatField(null=True)
+
 
 
 class Options(models.Model):
