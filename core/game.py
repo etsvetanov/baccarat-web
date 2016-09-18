@@ -47,6 +47,6 @@ class GameFactory:
         if columns:
             collector = Collector(fields=columns)
             for i in range(self.player_num):
-                p =
+                pass
 
 
