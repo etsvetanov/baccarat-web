@@ -59,7 +59,7 @@ def options(request):
 
 
 def simulate(request):
-    current_user = User.objects.get(username='John')
+    current_user = User.objects.get(username='john')
 
     options_set = current_user.options_set
 
@@ -75,17 +75,10 @@ def simulate(request):
 
     context = {
         'columns': columns,
+        'rows': rows
 
     }
 
-
-
     return render(request=request,
                   template_name='base/simulate.html',
-                  context={
-                      'columns': ['', 'bet', 'outcome'],
-                      'rows': [
-                          {'name': 'P1', 'data': [1, 'W']},
-                          {'name': 'P2', 'data': [3, 'L']}
-                      ]
-                  })
+                  context=context)

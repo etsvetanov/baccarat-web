@@ -25,6 +25,7 @@
 
     <div class="col-md-8">
         <table id="id_round_info" class="table table-bordered">
+
             <tr>
                 {% for column in columns %}
                     <th> {{ column }} </th>
@@ -32,9 +33,9 @@
             </tr>
             {% for row in rows %}
                 <tr>
-                    <th> {{ row.name }} </th>
-                    {% for item in row.data %}
-                        <td> {{ item }} </td>
+                    <th> {{ row }} </th>
+                    {% for column in columns %}
+                        <td>  </td>
                     {% endfor %}
                 </tr>
             {% endfor %}

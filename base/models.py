@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -13,15 +12,15 @@ class Round(models.Model):
     number = models.IntegerField(default=0)
     user = models.ForeignKey(User, null=True)
 
-    bet_column = models.FloatField(null=True)
-    index_column = models.IntegerField(null=True)
-    level_column = models.IntegerField(null=True)
-    net_column = models.FloatField(null=True)
-    partner_column = models.CharField(null=True, max_length=3)
-    play_column = models.CharField(null=True, max_length=1)
-    result_column = models.CharField(null=True, max_length=1)
-    debt_column = models.FloatField(null=True)
-
+    player = models.CharField(null=True, max_length=3)
+    bet = models.FloatField(null=True)
+    index = models.IntegerField(null=True)
+    level = models.IntegerField(null=True)
+    net = models.FloatField(null=True)
+    partner = models.CharField(null=True, max_length=3)
+    choice = models.CharField(null=True, max_length=1)
+    result = models.CharField(null=True, max_length=1)
+    debt = models.FloatField(null=True)
 
 
 class Options(models.Model):
