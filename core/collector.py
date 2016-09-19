@@ -13,7 +13,7 @@ class Collector:
                     value = getattr(source, field)
                 except AttributeError:
                     value = None
-                else:
+                finally:
                     setattr(player_round, field, value)
 
             player_round.save()

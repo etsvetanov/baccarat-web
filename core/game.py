@@ -3,10 +3,10 @@ from .collector import Collector
 from .player import SinglePlayer
 
 
-class Game():
+class Game:
     def __init__(self, gamblers, cltr=None, max_rounds=10000):
         self.max_rounds = max_rounds
-        self.round = 1
+        self.round = 0
         self.gamblers = gamblers
         self.outcome = None
         self.cltr = cltr
@@ -44,9 +44,24 @@ class GameFactory:
         self.base = base
 
     def create(self, columns=None):
+        players = []
+
         if columns:
             collector = Collector(fields=columns)
-            for i in range(self.player_num):
-                pass
+
+        for i in range(self.player_num):
+            p = SinglePlayer(coefficient=self.starting_bet, name='P' + str(i), base=self.base)
+            players.append(p)
+
+        game = Game(cltr=collector, gamblers=players, max_rounds=100)
+
+        return collector, game
 
 
+if __name__ == '__main__':
+    # test
+    factory = GameFactory(10, 1, 2)
+    collector, game = factory.create()
+    for i in range(100):
+        game.deal()
+        game.set_outcome()
