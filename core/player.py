@@ -69,7 +69,7 @@ class SinglePlayer(BasePlayer):
         else:
             self.double_up = False
 
-    def update(self, outcome, reward = None):
+    def update(self, outcome, reward=0):
         super().update(outcome, reward)
 
         self.update_index()

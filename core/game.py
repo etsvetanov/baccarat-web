@@ -1,6 +1,6 @@
-from .strategy import roll
-from .collector import Collector
-from .player import SinglePlayer
+import strategy
+# from .collector import Collector
+import player
 
 
 class Game:
@@ -15,7 +15,7 @@ class Game:
         if outcome:
             self.outcome = outcome
         else:
-            self.outcome = roll()
+            self.outcome = strategy.roll()
 
         self.notify_gamblers()
 
@@ -32,7 +32,7 @@ class Game:
 
     def deal(self):
         for gambler in self.gamblers:
-            gambler.play()
+            gambler.make_bet()
 
         self.round += 1
 
@@ -46,11 +46,13 @@ class GameFactory:
     def create(self, columns=None):
         players = []
 
-        if columns:
-            collector = Collector(fields=columns)
+        collector = None
+
+        # if columns:
+        #     collector = Collector(fields=columns)
 
         for i in range(self.player_num):
-            p = SinglePlayer(coefficient=self.starting_bet, name='P' + str(i), base=self.base)
+            p = player.SinglePlayer(coefficient=self.starting_bet, name='P' + str(i), base=self.base)
             players.append(p)
 
         game = Game(cltr=collector, gamblers=players, max_rounds=100)
@@ -65,3 +67,5 @@ if __name__ == '__main__':
     for i in range(100):
         game.deal()
         game.set_outcome()
+
+    print('Done')
