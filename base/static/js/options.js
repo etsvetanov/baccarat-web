@@ -13,7 +13,7 @@ function update_preview() {
         })
 
     }
-};
+}
 
 function increment() {
     var input_id = $(this).attr('data-target');
@@ -26,7 +26,7 @@ function increment() {
     input.val(new_value > max ? value : Number(new_value.toFixed(1)));
 
     input.trigger('input');
-};
+}
 
 function decrement() {
     var input_id = $(this).attr('data-target');
@@ -38,7 +38,7 @@ function decrement() {
 
     input.val(new_value < min ? value : Number(new_value.toFixed(1)));
     input.trigger('input');
-};
+}
 
 
 $(document).ready(function() {

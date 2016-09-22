@@ -76,7 +76,6 @@ def simulate(request):
     context = {
         'columns': columns,
         'rows': rows
-
     }
 
     return render(request=request,
