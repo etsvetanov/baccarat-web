@@ -1,6 +1,6 @@
-import strategy
 # from .collector import Collector
-import player
+from . import player
+
 
 
 class Game:
@@ -15,7 +15,7 @@ class Game:
         if outcome:
             self.outcome = outcome
         else:
-            self.outcome = strategy.roll()
+            self.outcome = player.roll()
 
         self.notify_gamblers()
 
@@ -58,6 +58,8 @@ class GameFactory:
         game = Game(cltr=collector, gamblers=players, max_rounds=100)
 
         return collector, game
+
+
 
 
 if __name__ == '__main__':
