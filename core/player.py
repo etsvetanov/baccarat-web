@@ -64,7 +64,9 @@ class SinglePlayer(BasePlayer):
         return roll()
 
     def is_double(self):
-        if (self.new_index <= 2 or self.new_index == 4) and self.index == self.new_index and not self.double_up:
+        if (self.new_index <= 2 or self.new_index == 4) \
+                and self.index == self.new_index \
+                and not self.double_up:
             self.double_up = True
         else:
             self.double_up = False
