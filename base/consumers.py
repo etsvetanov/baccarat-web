@@ -4,7 +4,6 @@ from core.worker import worker
 from multiprocessing import Process
 
 def ws_connect(message):
-    print('ws_connect called!')
     reply_channel_name = message.reply_channel.name
     options = {
         'starting_bet': 1,
@@ -17,7 +16,6 @@ def ws_connect(message):
 
 
 def ws_message(message):
-    print('ws_message called')
     message.reply_channel.send({
         'text': message.content['text']
     })
