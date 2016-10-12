@@ -5,3 +5,4 @@ psycopg2==2.6.2
 whitenoise==3.2
 selenium==2.53.6
 channels==0.17.2
+asgi-redis==0.14.1
