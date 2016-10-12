@@ -7,17 +7,17 @@ var chartData={
         "zooming":true
     },
     "plot": {
-//        "mode":"fast",
-//        "exact":true,
-//        "smartSampling":true,
-//        "maxNodes":0,
-//        "maxTrackers":0,
-//        "lineWidth":2,
-//        "shadow":false,
-//        "marker":{
-//            "type":"none",
-//            "shadow":false
-//        }
+        "mode":"fast",
+        "exact":true,
+        "smartSampling":true,
+        "maxNodes":0,
+        "maxTrackers":0,
+        "lineWidth":2,
+        "shadow":false,
+        "marker":{
+            "type":"none",
+            "shadow":false
+        }
     },
     "plotarea":{
         "background-color":"#fbfbfb",
@@ -85,17 +85,17 @@ var chartData={
             "padding":"5px 10px 5px 10px",
             "border-radius":"5px"
         },
-            "plotLabel":{
-                "multiple":false,
-                "callout":false,
-                "shadow":false,
-                "height":"115px",
-                "padding":"5px 10px 5px 10px",
-                "border-radius":"5px",
-                "alpha":1,
-                "headerText":"Node %scale-key-text<br>",
-                "text":"<b>%plot-text:</b> %node-value"
-            }
+//            "plotLabel":{
+//                "multiple":false,
+//                "callout":false,
+//                "shadow":false,
+//                "height":"115px",
+//                "padding":"5px 10px 5px 10px",
+//                "border-radius":"5px",
+//                "alpha":1,
+//                "headerText":"Node %scale-key-text<br>",
+//                "text":"<b>%plot-text:</b> %node-value"
+//            }
     },
 
     "series":[  // Insert your series data here.
@@ -107,7 +107,7 @@ var chartData={
     ]
 };
 
-
+var selected_iter = null;
 
 $(document).ready(function() {
 
@@ -129,24 +129,16 @@ $(document).ready(function() {
                 height:400,
                 width:800,
             });
-            zingchart.node_click=function(p) {
-                console.log("GRAPH CLICKEND ON X:", p['scale-label']['scale-x']);
+
+            zingchart.guide_mousemove=function(p) {
+                selected_iter = p['scale-label']['scale-x'];
+//                console.log("GRAPH CLICKEND ON X:", p['scale-label']['scale-x']);
 //                console.log('position:', p.guide.x)
+            };
+
+            zingchart.click=function(p){
+                console.log('Selected iteration is:', selected_iter);
             };
         }
     }
 });
-
-
-//
-//// Note that the path doesn't matter for routing; any WebSocket
-//// connection gets bumped over to WebSocket consumers
-//socket = new WebSocket("ws://" + window.location.host + "/chat/");
-//socket.onmessage = function(e) {
-//    alert(e.data);
-//}
-//socket.onopen = function() {
-//    socket.send("hello world");
-//}
-//// Call onopen directly if socket is already open
-//if (socket.readyState == WebSocket.OPEN) socket.onopen();
