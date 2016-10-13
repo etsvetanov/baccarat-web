@@ -130,15 +130,23 @@ $(document).ready(function() {
                 width:800,
             });
 
-            zingchart.guide_mousemove=function(p) {
-                selected_iter = p['scale-label']['scale-x'];
-//                console.log("GRAPH CLICKEND ON X:", p['scale-label']['scale-x']);
-//                console.log('position:', p.guide.x)
-            };
-
-            zingchart.click=function(p){
-                console.log('Selected iteration is:', selected_iter);
-            };
+        zingchart.bind('id_graph_box', 'click', function(e) {
+            var xyInformation = zingchart.exec('id_graph_box', 'getxyinfo', {
+                x: e.x,
+                y: e.y
+            });
+            console.log(xyInformation[0].scaleidx);
+        });
+//
+//            zingchart.guide_mousemove=function(p) {
+//                selected_iter = p['scale-label']['scale-x'];
+////                console.log("GRAPH CLICKEND ON X:", p['scale-label']['scale-x']);
+////                console.log('position:', p.guide.x)
+//            };
+//
+//            zingchart.click=function(p){
+//                console.log('Selected iteration is:', selected_iter);
+//            };
         }
     }
 });
