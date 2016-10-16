@@ -4,9 +4,9 @@ from random import randint
 def roll():
     n  = randint(1, 10000)
     if n <= 5068:  # 50.58%
-        return 'bank'
+        return 'P'
     else:  # 49.32%
-        return 'player'
+        return 'B'
 
 
 class BasePlayer:

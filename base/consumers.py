@@ -1,8 +1,11 @@
 from django.http import HttpResponse
 from channels.handler import AsgiHandler
+from channels.auth import http_session_user
 from core.worker import worker
 from multiprocessing import Process
 
+
+@http_session_user
 def ws_connect(message):
     reply_channel_name = message.reply_channel.name
     options = {
@@ -11,7 +14,7 @@ def ws_connect(message):
         'num_players': 10,
         'fields': [1, 2, 3]
     }
-    p = Process(target=worker, args=(options, reply_channel_name))
+    p = Process(target=worker, args=(options, reply_channel_name, message.user))
     p.start()
 
 

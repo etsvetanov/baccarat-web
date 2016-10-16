@@ -17,10 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 from base import views
 
+
 urlpatterns = [
     url(r'^$', views.home_page, name='home'),
     url(r'^play', views.play_page, name='play'),
     url(r'^admin/', admin.site.urls),
     url(r'^options', views.options, name='options'),
-    url(r'^simulate', views.simulate, name='simulate')
+    url(r'^simulate', views.simulate, name='simulate'),
+    url(r'^login', views.signin, name='signin'),
 ]

@@ -1,15 +1,11 @@
-# from .collector import Collector
 from . import player
 
 
 
 class Game:
-    def __init__(self, gamblers, cltr=None, max_rounds=10000):
-        self.max_rounds = max_rounds
-        self.round = 0
+    def __init__(self, gamblers):
         self.gamblers = gamblers
         self.outcome = None
-        self.cltr = cltr
 
     def set_outcome(self, outcome=None):
         if outcome:
@@ -19,8 +15,6 @@ class Game:
 
         self.notify_gamblers()
 
-        if self.cltr:
-            self.cltr.collect()
 
     def notify_gamblers(self):
         for gambler in self.gamblers:
@@ -34,7 +28,6 @@ class Game:
         for gambler in self.gamblers:
             gambler.make_bet()
 
-        self.round += 1
 
 
 class GameFactory:
@@ -43,19 +36,15 @@ class GameFactory:
         self.starting_bet = starting_bet
         self.base = base
 
-    def create(self, columns=None):
+    def create(self):
         players = []
-
-        collector = None
-
-        # if columns:
-        #     collector = Collector(fields=columns)
 
         for i in range(self.player_num):
             p = player.SinglePlayer(coefficient=self.starting_bet, name='P' + str(i), base=self.base)
             players.append(p)
 
-        game = Game(cltr=collector, gamblers=players, max_rounds=100)
+        game = Game(gamblers=players)
+
 
         return collector, game
 

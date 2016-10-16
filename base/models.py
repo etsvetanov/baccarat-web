@@ -1,6 +1,19 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+# https://docs.djangoproject.com/en/1.10/topics/signals/#django.dispatch.receiver
+
+@receiver(post_save, sender=User)
+def create_user_options(sender, **kwargs):
+    if kwargs['created']:
+        user_instance = kwargs['instance']
+        user_options = Options(user=user_instance)
+        user_options.save()
+
+
+
 
 
 # when you make changes to the models
@@ -9,10 +22,10 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Round(models.Model):
-    number = models.IntegerField(default=0)
-    user = models.ForeignKey(User, null=True)
+    iteration = models.IntegerField(default=0)  # iteration number
+    user_id = models.ForeignKey(User, null=True)
 
-    player = models.CharField(null=True, max_length=3)
+    name = models.CharField(null=True, max_length=20)
     bet = models.FloatField(null=True)
     index = models.IntegerField(null=True)
     level = models.IntegerField(null=True)
@@ -24,7 +37,7 @@ class Round(models.Model):
 
 
 class Options(models.Model):
-    user = models.ForeignKey(User, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     step = models.PositiveIntegerField(
         default=2,
@@ -49,7 +62,7 @@ class Options(models.Model):
     level_column = models.BooleanField(default=True)
     net_column = models.BooleanField(default=True)
     partner_column = models.BooleanField(default=True)
-    play_column = models.BooleanField(default=True)
+    choice_column = models.BooleanField(default=True)
     result_column = models.BooleanField(default=True)
     debt_column = models.BooleanField(default=True)
 

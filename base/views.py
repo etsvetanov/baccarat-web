@@ -4,6 +4,7 @@ from django.forms import IntegerField, BooleanField
 from base.models import Options
 from base.forms import OptionsForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
 from django.forms import TextInput
 
 
@@ -17,10 +18,11 @@ def play_page(request):
 
 
 def options(request):
-    current_user = User.objects.get(username='john')
+    current_user = request.user
 
+    # TODO: this could be removed at some point since Options are created when a new user is created
     try:
-        user_options = Options.objects.get(user=current_user)
+        user_options = current_user.options
     except Options.DoesNotExist:
         user_options = Options(user=current_user)
         user_options.save()
@@ -81,3 +83,18 @@ def simulate(request):
     return render(request=request,
                   template_name='base/simulate.html',
                   context=context)
+
+def signin(request):
+
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            print('user is not None')
+            login(request=request, user=user)
+            return redirect('/')
+        else:
+            print("NOOOOOOOOOOOOOO")
+    return render(request=request,
+                  template_name='base/login.html')
