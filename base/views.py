@@ -42,7 +42,7 @@ def options(request):
                      form['level_column'],
                      form['net_column'],
                      form['partner_column'],
-                     form['play_column'],
+                     form['choice_column'],
                      form['result_column'],
                      form['debt_column'])
 
@@ -63,11 +63,7 @@ def options(request):
 def simulate(request):
     current_user = User.objects.get(username='john')
 
-    options_set = current_user.options_set
-
-    assert options_set.count() == 1
-
-    user_options = options_set.get()
+    user_options = current_user.options
 
     columns = [field.name for field in user_options._meta.get_fields()
                if field.name.endswith('column') and getattr(user_options, field.name)]

@@ -3,6 +3,7 @@ from channels.handler import AsgiHandler
 from channels.auth import http_session_user
 from core.worker import worker
 from multiprocessing import Process
+from django import db
 
 
 @http_session_user
@@ -14,6 +15,8 @@ def ws_connect(message):
         'num_players': 10,
         'fields': [1, 2, 3]
     }
+
+    db.connections.close_all()  # close connection before forking
     p = Process(target=worker, args=(options, reply_channel_name, message.user))
     p.start()
 

@@ -25,7 +25,7 @@ class Round(models.Model):
     iteration = models.IntegerField(default=0)  # iteration number
     user_id = models.ForeignKey(User, null=True)
 
-    name = models.CharField(null=True, max_length=20)
+    name = models.CharField(default='Jose', max_length=20)
     bet = models.FloatField(null=True)
     index = models.IntegerField(null=True)
     level = models.IntegerField(null=True)

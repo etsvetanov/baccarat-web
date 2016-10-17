@@ -45,8 +45,7 @@ class GameFactory:
 
         game = Game(gamblers=players)
 
-
-        return collector, game
+        return game
 
 
 
