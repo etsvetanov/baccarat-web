@@ -23,9 +23,9 @@ def worker(game_options, channel_name, user):
     game = factory.create()
 
 
-    collector = Collector(fields=fields, user=user, buffer_size=50)
+    collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 1000
+    iterations = 10000
     last_whole_percent = 0
     players = game.gamblers
     net_list = []

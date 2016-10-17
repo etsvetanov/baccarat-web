@@ -6,6 +6,8 @@ from multiprocessing import Process
 from django import db
 
 
+processes = {}
+
 @http_session_user
 def ws_connect(message):
     reply_channel_name = message.reply_channel.name
@@ -18,6 +20,7 @@ def ws_connect(message):
 
     db.connections.close_all()  # close connection before forking
     p = Process(target=worker, args=(options, reply_channel_name, message.user))
+    processes[message.user.username] = p
     p.start()
 
 
