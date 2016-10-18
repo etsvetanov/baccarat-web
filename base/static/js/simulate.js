@@ -96,13 +96,43 @@ var chartData={
     ]
 };
 
+var get_iteration_info(ws, iteration) = {
+    var columns = $('#id_round_info th');
+    var column_strings = [];
+
+    for (var i = 0; i < header.length; i++) {
+        column_strings.push(columns[i].text().trim());
+    };
+
+    var msg = {
+        type: "get",
+        what: "headers",
+        iteration: iteration,
+        columns: columns
+    };
+
+    ws.send(JSON.stringify(msg));
+};
+
 var selected_iter = null;
+
+var receive_progress_info = function(event) {
+
+};
+
+var receive_iteration_info = function (event) {
+    var rows = Json.parse(event.data);  // now msg should be an array of arrays
+    for (var i = 0; i < rows.length; i++) {
+
+    };
+};
+
 
 $(document).ready(function() {
 
     socket = new WebSocket("ws://" + window.location.host + "/simulate/");
 
-    socket.onmessage = function (event) {
+    socket.onmessage = function(event) {
         var msg = JSON.parse(event.data);
         var percentage = msg.percentage;
         chartData.series[0].values = chartData.series[0].values.concat(msg.net_list)
@@ -128,6 +158,9 @@ $(document).ready(function() {
                 });
                 console.log(xyInformation[0].scaleidx);
             });
+
+            socket.onme
         }
-    }
+    };
+
 });
