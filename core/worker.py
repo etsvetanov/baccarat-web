@@ -25,7 +25,7 @@ def worker(game_options, channel_name, user):
 
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 10000
+    iterations = 500
     last_whole_percent = 0
     players = game.gamblers
     net_list = []

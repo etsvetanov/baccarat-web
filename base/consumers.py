@@ -43,6 +43,3 @@ def ws_message(message):
     message.reply_channel.send({
         'text': json.dumps(iteration_list)
     })
-
-def test_channel(message):
-    print('THIS IS THE NEW CHANNEL')

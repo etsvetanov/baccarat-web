@@ -96,29 +96,29 @@ var chartData={
     ]
 };
 
-var get_iteration_info(ws, iteration) = {
+var get_iteration_info = function(ws, iteration) {
     var columns = $('#id_round_info th');
     var column_strings = [];
 
-    for (var i = 0; i < header.length; i++) {
-        column_strings.push(columns[i].text().trim());
+    for (var i = 0; i < columns.length; i++) {
+        column_strings.push(columns[i].textContent.trim());
     };
 
     var msg = {
         type: "get",
         what: "headers",
         iteration: iteration,
-        columns: columns
+        columns: column_strings
     };
-
-    ws.send(JSON.stringify(msg));
+    var msg_string = JSON.stringify(msg);
+    ws.send(msg_string);
 };
 
 var selected_iter = null;
 
-var receive_progress_info = function(event) {
-
-};
+//var receive_progress_info = function(event) {
+//
+//};
 
 var receive_iteration_info = function (event) {
     var rows = Json.parse(event.data);  // now msg should be an array of arrays
@@ -130,7 +130,7 @@ var receive_iteration_info = function (event) {
 
 $(document).ready(function() {
 
-    socket = new WebSocket("ws://" + window.location.host + "/simulate/");
+    var socket = new WebSocket("ws://" + window.location.host + "/simulate/");
 
     socket.onmessage = function(event) {
         var msg = JSON.parse(event.data);
@@ -156,10 +156,12 @@ $(document).ready(function() {
                     x: e.x,
                     y: e.y
                 });
-                console.log(xyInformation[0].scaleidx);
+                var x = xyInformation[0].scaleidx;
+
+                get_iteration_info(socket, x);
             });
 
-            socket.onme
+//            socket.onmessage = receive_iteration_info;
         }
     };
 
