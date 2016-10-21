@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from channels.handler import AsgiHandler
-from channels.auth import http_session_user
+from channels.auth import channel_session_user_from_http, channel_session_user
 from core.worker import worker
 from multiprocessing import Process, Pipe
 from django import db
@@ -10,7 +10,7 @@ import json
 
 processes = {}
 
-@http_session_user
+@channel_session_user_from_http
 def ws_connect(message):
     reply_channel_name = message.reply_channel.name
     # username = message.user.username
@@ -32,7 +32,7 @@ def ws_connect(message):
     # elif processes[username].is_alive():
     #     # write something in a pipe
 
-@http_session_user
+@channel_session_user
 def ws_message(message):
     content = json.loads(message.content['text'])
     columns = content['columns']

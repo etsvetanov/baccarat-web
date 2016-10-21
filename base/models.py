@@ -69,3 +69,10 @@ class Options(models.Model):
     real_player_rows = models.BooleanField(default=True)
     virtual_player_rows = models.BooleanField(default=True)
 
+    @classmethod
+    def get_column_names(cls):
+        return [field.name.split('_column')[0] for field in cls._meta.get_fields() if field.name.endswith('column')]
+
+    def get_enabled_column_names(self):
+        return [field.name.split('_column')[0] for field in self._meta.get_fields()\
+                if field.name.endswith('column') and getattr(self, field.name)]

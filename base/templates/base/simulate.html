@@ -27,20 +27,11 @@
 
     <div class="col-md-8">
         <table id="id_round_info" class="table table-bordered">
-
             <tr>
                 {% for column in columns %}
                     <th> {{ column }} </th>
                 {% endfor %}
             </tr>
-            {% for row in rows %}
-                <tr>
-                    <th> {{ row }} </th>
-                    {% for column in columns %}
-                        <td>  </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
         </table>
     </div>
 </div>

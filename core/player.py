@@ -23,7 +23,7 @@ class BasePlayer:
         self.net -= self.bet
 
     def update(self, outcome, reward=0):
-        self.outcome = outcome
+        self.result = outcome
         self.net += reward
 
     def get_bet_size(self):
@@ -43,7 +43,7 @@ class SinglePlayer(BasePlayer):
         self.new_index = 0
         self.index = None
         self.double_up = False
-        self.outcome = 'L'
+        self.result = 'L'
         self.level = 1
         self.base = base
         self.debt = 0
@@ -78,7 +78,7 @@ class SinglePlayer(BasePlayer):
         self.update_level()
 
     def update_index(self):
-        if self.outcome == 'L':
+        if self.result == 'L':
             self.new_index += 1
         elif self.new_index == 3 or self.new_index >= 5:
             self.new_index -= 3

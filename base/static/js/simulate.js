@@ -19,12 +19,15 @@ var chartData={
             "shadow":false
         }
     },
+//    "plotarea":{
+//        "margin":"40px 20px 50px 100px"
+//    },
     "plotarea":{
         "background-color":"#fbfbfb",
         "margin-top":"30px",
-        "margin-bottom":"40px",
+        "margin-bottom":"60px",
         "margin-left":"50px",
-        "margin-right":"30px"
+        "margin-right":"80px"
     },
     "scaleX":{
         "autoFit":true,
@@ -97,6 +100,7 @@ var chartData={
 };
 
 var get_iteration_info = function(ws, iteration) {
+    console.log("retrieving info for iteration:", iteration)
     var columns = $('#id_round_info th');
     var column_strings = [];
 
@@ -121,9 +125,18 @@ var selected_iter = null;
 //};
 
 var receive_iteration_info = function (event) {
-    var rows = Json.parse(event.data);  // now msg should be an array of arrays
+    var rows = JSON.parse(event.data);  // now data should be an array of arrays
+    var table = $('#id_round_info > tbody');
+    $('#id_round_info > tbody > tr:not(:first-child)').remove()
     for (var i = 0; i < rows.length; i++) {
+        table.append("\n<tr>");
+        var new_tr = table.find('tr:last-child');
 
+        for (var j = 0; j < rows[i].length; j++) {
+            new_tr.append("\n<td> " + rows[i][j] + "</td>");
+        }
+
+//        table.append("\n</tr>");
     };
 };
 
@@ -161,7 +174,8 @@ $(document).ready(function() {
                 get_iteration_info(socket, x);
             });
 
-//            socket.onmessage = receive_iteration_info;
+
+            socket.onmessage = receive_iteration_info;
         }
     };
 

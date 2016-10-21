@@ -65,15 +65,10 @@ def simulate(request):
 
     user_options = current_user.options
 
-    columns = [field.name for field in user_options._meta.get_fields()
-               if field.name.endswith('column') and getattr(user_options, field.name)]
-
-    rows = [field.name for field in user_options._meta.get_fields()
-            if field.name.endswith('row') and getattr(user_options, field.name)]
+    columns = user_options.get_enabled_column_names()
 
     context = {
-        'columns': columns,
-        'rows': rows
+        'columns': columns
     }
 
     return render(request=request,
