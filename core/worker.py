@@ -15,14 +15,14 @@ def worker(game_options, channel_name, user):
     starting_bet = user_options.starting_bet
     step = user_options.step
     pairs = user_options.pairs
-    columns = [field.name for field in user_options._meta.get_fields()
-               if field.name.endswith('_column') and getattr(user_options, field.name)]
-    fields = [column.split('_column')[0] for column in columns]
-
+    # columns = [field.name for field in user_options._meta.get_fields()
+    #            if field.name.endswith('_column') and getattr(user_options, field.name)]
+    # fields = [column.split('_column')[0] for column in columns]
     factory = GameFactory(player_num=pairs, starting_bet=starting_bet, base=step)
     game = factory.create()
 
-
+    fields = user_options.get_enabled_column_names()
+    print("'fields' in worker():", fields)
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
     iterations = 500

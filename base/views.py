@@ -21,13 +21,9 @@ def options(request):
     current_user = request.user
 
     # TODO: this could be removed at some point since Options are created when a new user is created
-    try:
-        user_options = current_user.options
-    except Options.DoesNotExist:
-        user_options = Options(user=current_user)
-        user_options.save()
 
-    form = OptionsForm(instance=user_options)
+    user_options = current_user.options
+
 
     if request.method == 'POST':
         submit_form = OptionsForm(request.POST, instance=user_options)
@@ -35,6 +31,7 @@ def options(request):
 
         return redirect('/')
 
+    form = OptionsForm(instance=user_options)
     input_fields = (form['step'], form['pairs'], form['starting_bet'])
 
     column_fields = (form['bet_column'],
@@ -66,6 +63,7 @@ def simulate(request):
     user_options = current_user.options
 
     columns = user_options.get_enabled_column_names()
+    print("'columns' in simulate() view:", columns)
 
     context = {
         'columns': columns
