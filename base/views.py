@@ -58,9 +58,7 @@ def options(request):
 
 
 def simulate(request):
-    current_user = User.objects.get(username='john')
-
-    user_options = current_user.options
+    user_options = request.user.options
 
     columns = user_options.get_enabled_column_names()
     print("'columns' in simulate() view:", columns)
