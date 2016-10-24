@@ -27,37 +27,20 @@ def options(request):
         return redirect('/')
 
     form = OptionsForm(instance=user_options)
-    input_fields = (form['step'], form['pairs'], form['starting_bet'])
-
-    # column_fields = (form['bet_column'],
-    #                  form['index_column'],
-    #                  form['level_column'],
-    #                  form['net_column'],
-    #                  form['partner_column'],
-    #                  form['choice_column'],
-    #                  form['result_column'],
-    #                  form['debt_column'])
-
-    column_fields = form.columns
-
-    row_fields = (form['virtual_player_rows'], form['real_player_rows'])
 
     return render(request=request,
                   template_name='base/options.html',
                   context={
-                      'input_fields': input_fields,
-                      'column_fields': column_fields,
-                      'row_fields': row_fields,
-                      'form': form,
-                      'input_field': IntegerField,
-                      'check_box_field': BooleanField
+                      'input_fields': form.input_fields,
+                      'column_fields': form.columns,
+                      'row_fields': form.rows,
                   })
 
 
 def simulate(request):
     user_options = request.user.options
 
-    columns = user_options.get_enabled_column_names()
+    columns = ['name'] + user_options.get_enabled_column_names()
     print("'columns' in simulate() view:", columns)
 
     context = {

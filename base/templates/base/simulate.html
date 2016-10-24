@@ -5,7 +5,7 @@
 {% block header_text %} Simulation session {% endblock %}
 
 {% block content %}
-<div class="row">
+<div class="row top-buffer">
     <div class="col-md-2">
     </div>
 
@@ -21,7 +21,17 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row top-buffer">
+    <div class="col-md-6">
+        <button id="previous_iteration" type="button" class="btn btn-default pull-right"> < </button>
+    </div>
+
+    <div class="col-md-6">
+        <button id="next_iteration" type="button" class="btn btn-default"> > </button>
+    </div>
+</div>
+
+<div class="row top-buffer">
     <div class="col-md-2">
     </div>
 
@@ -35,14 +45,6 @@
         </table>
     </div>
 </div>
-<!--<div class="row">-->
-    <!--<div class="col-md-2">-->
-    <!--</div>-->
-
-    <!--<div class="col-md-8">-->
-        <!--<div id ='chartDiv'></div>-->
-    <!--</div>-->
-<!--</div>-->
 
 {% endblock %}
 
