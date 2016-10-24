@@ -1,22 +1,20 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.forms import IntegerField, BooleanField
-from base.models import Options
 from base.forms import OptionsForm
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
-from django.forms import TextInput
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def home_page(request):
     return render(request, 'base/home.html')
 
 
+@login_required
 def play_page(request):
     return render(request, 'base/play.html',
                   {'new_item_text': 'A new table item'})
 
-
+@login_required
 def options(request):
     user_options = request.user.options
 
@@ -37,6 +35,7 @@ def options(request):
                   })
 
 
+@login_required
 def simulate(request):
     user_options = request.user.options
 
@@ -51,8 +50,8 @@ def simulate(request):
                   template_name='base/simulate.html',
                   context=context)
 
-def signin(request):
 
+def sign_in(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -65,3 +64,8 @@ def signin(request):
             print("NOOOOOOOOOOOOOO")
     return render(request=request,
                   template_name='base/login.html')
+
+
+def sign_out(request):
+    logout(request)
+    return redirect('/login')

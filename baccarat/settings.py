@@ -144,6 +144,7 @@ ALLOWED_HOSTS = ['*']
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, '../../baccarat-static')
 STATIC_URL = '/static/'
+LOGIN_URL = '/login'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
