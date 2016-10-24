@@ -18,12 +18,7 @@ def play_page(request):
 
 
 def options(request):
-    current_user = request.user
-
-    # TODO: this could be removed at some point since Options are created when a new user is created
-
-    user_options = current_user.options
-
+    user_options = request.user.options
 
     if request.method == 'POST':
         submit_form = OptionsForm(request.POST, instance=user_options)
@@ -34,14 +29,16 @@ def options(request):
     form = OptionsForm(instance=user_options)
     input_fields = (form['step'], form['pairs'], form['starting_bet'])
 
-    column_fields = (form['bet_column'],
-                     form['index_column'],
-                     form['level_column'],
-                     form['net_column'],
-                     form['partner_column'],
-                     form['choice_column'],
-                     form['result_column'],
-                     form['debt_column'])
+    # column_fields = (form['bet_column'],
+    #                  form['index_column'],
+    #                  form['level_column'],
+    #                  form['net_column'],
+    #                  form['partner_column'],
+    #                  form['choice_column'],
+    #                  form['result_column'],
+    #                  form['debt_column'])
+
+    column_fields = form.columns
 
     row_fields = (form['virtual_player_rows'], form['real_player_rows'])
 

@@ -39,6 +39,17 @@ class OptionsForm(ModelForm):
             })
         }
 
+    @property
+    def columns(self):
+        return [self[column] for column in self.Meta.model.get_column_names()]
+
+    @property
+    def rows(self):
+        return [self[row] for row in self.Meta.model.get_row_names()]
+
+    @property
+    def input_fields(self):
+        return [self[input] for input in self.Meta.model.get_input_names()]
 
 
 
