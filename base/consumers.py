@@ -1,36 +1,21 @@
-from django.http import HttpResponse
-from channels.handler import AsgiHandler
+import json
+from channels import Group
 from channels.auth import channel_session_user_from_http, channel_session_user
 from core.worker import worker
-from multiprocessing import Process, Pipe
+from multiprocessing import Process
 from django import db
-from base.models import Round, Options
-import json
+from base.models import Round
 
 
-processes = {}
 
 @channel_session_user_from_http
 def ws_connect(message):
-    reply_channel_name = message.reply_channel.name
-    # username = message.user.username
-    options = {
-        'starting_bet': 1,
-        'step': 2,
-        'num_players': 10,
-        'fields': [1, 2, 3]
-    }
+    Group(message.user.username).add(message.reply_channel)
 
     db.connections.close_all()
-    p = Process(target=worker, args=(options, reply_channel_name, message.user))
+    p = Process(target=worker, args=(message.user, ))
     p.start()
-    # if username not in processes:
-    #     db.connections.close_all()  # close connection before forking
-    #     p = Process(target=worker, args=(options, reply_channel_name, message.user))
-    #     processes[username] = p
-    #     p.start()
-    # elif processes[username].is_alive():
-    #     # write something in a pipe
+
 
 @channel_session_user
 def ws_message(message):
@@ -43,3 +28,8 @@ def ws_message(message):
     message.reply_channel.send({
         'text': json.dumps(iteration_list)
     })
+
+
+@channel_session_user
+def ws_disconnect(message):
+    Group(message.user.username).discard(message.reply_channel)

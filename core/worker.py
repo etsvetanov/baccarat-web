@@ -1,6 +1,6 @@
 # from baccarat.asgi import channel_layer
 import json
-from channels import Channel
+from channels import Group
 from asgiref.base_layer import BaseChannelLayer
 from .game import GameFactory
 from math import floor
@@ -8,16 +8,14 @@ from base.models import Round
 from .collector import Collector
 
 
-def worker(game_options, channel_name, user):
+def worker(user):
     Round.objects.filter(user_id=user.id).delete()
 
     user_options = user.options
     starting_bet = user_options.starting_bet
     step = user_options.step
     pairs = user_options.pairs
-    # columns = [field.name for field in user_options._meta.get_fields()
-    #            if field.name.endswith('_column') and getattr(user_options, field.name)]
-    # fields = [column.split('_column')[0] for column in columns]
+
     factory = GameFactory(player_num=pairs, starting_bet=starting_bet, base=step)
     game = factory.create()
 
@@ -49,7 +47,7 @@ def worker(game_options, channel_name, user):
             data = {'percentage': current_percent,
                     'net_list': net_list}
 
-            Channel(channel_name).send({
+            Group(user.username).send({
                 'text': json.dumps(data),
             })
 
