@@ -7,7 +7,6 @@ from django import db
 from base.models import Round
 
 
-
 @channel_session_user_from_http
 def ws_connect(message):
     Group(message.user.username).add(message.reply_channel)
@@ -28,7 +27,6 @@ def ws_message(message):
     message.reply_channel.send({
         'text': json.dumps(iteration_list)
     })
-
 
 @channel_session_user
 def ws_disconnect(message):
