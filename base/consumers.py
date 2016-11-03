@@ -1,19 +1,12 @@
 import json
 from channels import Group
 from channels.auth import channel_session_user_from_http, channel_session_user
-from core.worker import worker
-from multiprocessing import Process
-from django import db
 from base.models import Round
 
 
 @channel_session_user_from_http
 def ws_connect(message):
     Group(message.user.username).add(message.reply_channel)
-
-    db.connections.close_all()
-    p = Process(target=worker, args=(message.user, ))
-    p.start()
 
 
 @channel_session_user

@@ -103,10 +103,11 @@ var change_page = function(event) {
     if (current_iteration < 0) {
         current_iteration = 0;
     };
-    get_iteration_info(socket, current_iteration);
+    request_iteration_info(socket, current_iteration);
 };
 
-var get_iteration_info = function(ws, iteration) {
+var request_iteration_info = function(ws, iteration) {
+
     console.log("retrieving info for iteration:", iteration)
     var columns = $('#id_round_info th');
     var column_strings = [];
@@ -125,13 +126,9 @@ var get_iteration_info = function(ws, iteration) {
     ws.send(msg_string);
 };
 
-var selected_iter = null;
-
-//var receive_progress_info = function(event) {
-//
-//};
-
 var receive_iteration_info = function (event) {
+    document.getElementById('current_iteration').innerHTML = "Current iteration: " + current_iteration;
+
     var rows = JSON.parse(event.data);  // now data should be an array of arrays
     var table = $('#id_round_info > tbody');
     $('#id_round_info > tbody > tr:not(:first-child)').remove()
@@ -147,14 +144,36 @@ var receive_iteration_info = function (event) {
     };
 };
 
+var request_start = function (event) {
+    httpRequest = new XMLHttpRequest();
+
+    httpRequest.onreadystatechane = function() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                console.log('Simulation started!');
+            } else {
+                console.log('En error occurred while starting the simulation');
+            }
+        }
+    };
+
+    httpRequest.open('GET', 'http://' + window.location.host + "/start_sim/", true);
+    httpRequest.setRequestHeader('Cache-Control', 'no-store');
+    httpRequest.send(null);
+};
+
+
 var socket = null;
 var current_iteration = 0;
+
+
 
 $(document).ready(function() {
 
     socket = new WebSocket("ws://" + window.location.host + "/simulate/");
+    $('#start_simulation').on('click', request_start);
     $('#previous_iteration').on('click', {val: -1}, change_page);
-    $('#next_iteration').on('click', {val: +1}, change_page)
+    $('#next_iteration').on('click', {val: +1}, change_page);
 
     socket.onmessage = function(event) {
         var msg = JSON.parse(event.data);
@@ -183,7 +202,7 @@ $(document).ready(function() {
                 var x = xyInformation[0].scaleidx;
 
                 current_iteration = x;
-                get_iteration_info(socket, x);
+                request_iteration_info(socket, x);
             });
 
             socket.onmessage = receive_iteration_info;

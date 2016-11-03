@@ -1,7 +1,14 @@
 from django.shortcuts import render, redirect
+from django.http.response import HttpResponse
 from base.forms import OptionsForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from core.worker import worker
+from multiprocessing import Process, Value
+from django import db
+
+
+shared_signals = {}
 
 
 @login_required
@@ -50,6 +57,25 @@ def simulate(request):
                   template_name='base/simulate.html',
                   context=context)
 
+@login_required
+def start_sim(request):
+    db.connections.close_all()
+
+    shared_value = Value('i', 0)
+    shared_signals[request.user.username] = shared_value
+
+    p = Process(target=worker, args=(request.user, shared_value))
+    p.start()
+
+    return HttpResponse()
+
+@login_required
+def stop_sim(request):
+    shared_value = shared_signals[request.user.username]
+    with shared_value.get_lock():
+        print('Sending a stop signal to the process...')
+        shared_value.value = 1
+
 
 def sign_in(request):
     if request.method == 'POST':
@@ -57,11 +83,9 @@ def sign_in(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
-            print('user is not None')
             login(request=request, user=user)
             return redirect('/')
-        else:
-            print("NOOOOOOOOOOOOOO")
+
     return render(request=request,
                   template_name='base/login.html')
 

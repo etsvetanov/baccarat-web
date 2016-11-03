@@ -8,7 +8,7 @@ from base.models import Round
 from .collector import Collector
 
 
-def worker(user):
+def worker(user, shared_value):
     Round.objects.filter(user_id=user.id).delete()
 
     user_options = user.options
@@ -23,12 +23,18 @@ def worker(user):
     print("'fields' in worker():", fields)
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 500
+    iterations = 5000
     last_whole_percent = 0
     players = game.gamblers
     net_list = []
 
     for i in range(iterations):
+        if i % 100 == 0:
+            with shared_value.get_lock():
+                if shared_value.value:
+                    print('STOOOOOOP')
+                    break
+
         game.deal()
         game.set_outcome()
 
