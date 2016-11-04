@@ -1,14 +1,13 @@
 # from baccarat.asgi import channel_layer
 import json
 from channels import Group
-from asgiref.base_layer import BaseChannelLayer
 from .game import GameFactory
 from math import floor
 from base.models import Round
 from .collector import Collector
 
 
-def worker(user, shared_value):
+def worker(user):
     Round.objects.filter(user_id=user.id).delete()
 
     user_options = user.options
@@ -23,17 +22,17 @@ def worker(user, shared_value):
     print("'fields' in worker():", fields)
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 5000
+    iterations = 20000
     last_whole_percent = 0
     players = game.gamblers
     net_list = []
 
     for i in range(iterations):
-        if i % 100 == 0:
-            with shared_value.get_lock():
-                if shared_value.value:
-                    print('STOOOOOOP')
-                    break
+        # if i % 100 == 0:
+        #     with shared_value.get_lock():
+        #         if shared_value.value:
+        #             print('STOOOOOOP')
+        #             break
 
         game.deal()
         game.set_outcome()
@@ -60,6 +59,12 @@ def worker(user, shared_value):
             net_list.clear()
 
     collector.flush_buffer()
+    print('This is the last statement in the process')
+
+    # user_options.simulation_status = False
+    # user_options.save()
+
+
 
 
 
