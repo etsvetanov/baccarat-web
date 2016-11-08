@@ -62,7 +62,8 @@ def simulate(request):
                   context=context)
 
 @login_required
-def start_sim(request):
+def start_sim(request, iterations):
+    iterations = int(iterations)
     username = request.user.username
 
     if username in user_processes:
@@ -72,7 +73,7 @@ def start_sim(request):
 
     db.connections.close_all()
 
-    p = Process(target=worker, args=(request.user, ))
+    p = Process(target=worker, args=(request.user, iterations))
     p.start()
     user_processes[username] = p
     print('A simulation should be started')

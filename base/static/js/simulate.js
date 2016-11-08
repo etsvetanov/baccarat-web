@@ -159,32 +159,32 @@ var request_start = function (event) {
             }
         }
     };
-
-    httpRequest.open('GET', 'http://' + window.location.host + "/start_sim/", true);
+    var iterations = $('#iterations').val()
+    httpRequest.open('GET', 'http://' + window.location.host + "/start_sim/" + iterations, true);
     httpRequest.setRequestHeader('Cache-Control', 'no-store');
     httpRequest.send(null);
 };
 
-var request_stop = function (event) {
-    httpRequest = new XMLHttpRequest();
-
-    httpRequest.onreadystatechange = function() {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            if (httpRequest.status === 200) {
-
-                $('#start_stop').off('click', request_stop);
-                $('#start_stop').on('click', request_start);
-                $('#start_stop').text('Start');
-            } else {
-                console.log('An error occurred while stopping the simulation');
-            }
-        }
-    };
-
-    httpRequest.open('GET', 'http://' + window.location.host + "/stop_sim/", true);
-    httpRequest.setRequestHeader('Cache-Control', 'no-store');
-    httpRequest.send(null);
-};
+//var request_stop = function (event) {
+//    httpRequest = new XMLHttpRequest();
+//
+//    httpRequest.onreadystatechange = function() {
+//        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+//            if (httpRequest.status === 200) {
+//
+//                $('#start_stop').off('click', request_stop);
+//                $('#start_stop').on('click', request_start);
+//                $('#start_stop').text('Start');
+//            } else {
+//                console.log('An error occurred while stopping the simulation');
+//            }
+//        }
+//    };
+//
+//    httpRequest.open('GET', 'http://' + window.location.host + "/stop_sim/", true);
+//    httpRequest.setRequestHeader('Cache-Control', 'no-store');
+//    httpRequest.send(null);
+//};
 
 
 var socket = null;
@@ -201,7 +201,7 @@ $(document).ready(function() {
 
 //    var start_stop_button = $('#start_stop');
 //
-//    if (start_stop_button.text().indexOf('Start') !== -1) {
+//    if (start_stop_button.t ext().indexOf('Start') !== -1) {
 //        start_stop_button.on('click', request_start);
 //    } else if (start_stop_button.text().indexOf('Stop') !== -1) {
 //        start_stop_button.on('click', request_stop)
@@ -215,7 +215,7 @@ $(document).ready(function() {
         var msg = JSON.parse(event.data);
         var percentage = msg.percentage;
         chartData.series[0].values = chartData.series[0].values.concat(msg.net_list)
-//        console.log("net_list:", msg.net_list)
+        console.log("net_list:", msg.net_list)
         console.log("percentage", percentage)
         $('#id_progress_bar').attr('style', 'width: ' + percentage + '%;');
         $('#id_progress_bar').attr('aria-valuenow', percentage);

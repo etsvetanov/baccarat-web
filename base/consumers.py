@@ -6,14 +6,15 @@ from base.views import user_processes
 
 @channel_session_user_from_http
 def ws_connect(message):
-    username = message.user.username
+    # username = message.user.username
+    #
+    # if username in user_processes:
+    #     if not user_processes[username].is_alive():
+    #         print('Telling the client that the process is finished')
+    #         message.reply_channel.send({
+    #             'text': json.dumps({'percentage': 100, 'net_list': []})
+    #         })
 
-    if username in user_processes:
-        if not user_processes[username].is_alive():
-            print('Telling the client that the process is finished')
-            message.reply_channel.send({
-                'text': json.dumps({'percentage': 100})  # todo: check what kind of object is the client expecting
-            })
     Group(message.user.username).add(message.reply_channel)
 
 
