@@ -1,23 +1,20 @@
 # from baccarat.asgi import channel_layer
 import json
-from channels import Channel
-from asgiref.base_layer import BaseChannelLayer
+from channels import Group
 from .game import GameFactory
 from math import floor
 from base.models import Round
 from .collector import Collector
 
 
-def worker(game_options, channel_name, user):
+def worker(user):
     Round.objects.filter(user_id=user.id).delete()
 
     user_options = user.options
     starting_bet = user_options.starting_bet
     step = user_options.step
     pairs = user_options.pairs
-    # columns = [field.name for field in user_options._meta.get_fields()
-    #            if field.name.endswith('_column') and getattr(user_options, field.name)]
-    # fields = [column.split('_column')[0] for column in columns]
+
     factory = GameFactory(player_num=pairs, starting_bet=starting_bet, base=step)
     game = factory.create()
 
@@ -25,12 +22,18 @@ def worker(game_options, channel_name, user):
     print("'fields' in worker():", fields)
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 500
+    iterations = 600
     last_whole_percent = 0
     players = game.gamblers
     net_list = []
 
     for i in range(iterations):
+        # if i % 100 == 0:
+        #     with shared_value.get_lock():
+        #         if shared_value.value:
+        #             print('STOOOOOOP')
+        #             break
+
         game.deal()
         game.set_outcome()
 
@@ -49,13 +52,19 @@ def worker(game_options, channel_name, user):
             data = {'percentage': current_percent,
                     'net_list': net_list}
 
-            Channel(channel_name).send({
+            Group(user.username).send({
                 'text': json.dumps(data),
             })
 
             net_list.clear()
 
     collector.flush_buffer()
+    print('This is the last statement in the process')
+
+    # user_options.simulation_status = False
+    # user_options.save()
+
+
 
 
 

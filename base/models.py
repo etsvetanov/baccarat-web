@@ -13,14 +13,6 @@ def create_user_options(sender, **kwargs):
         user_options.save()
 
 
-
-
-
-# when you make changes to the models
-# run - python manage.py makemigrations
-# then - python manage.py migrate
-
-
 class Round(models.Model):
     iteration = models.IntegerField(default=0)  # iteration number
     user_id = models.ForeignKey(User, null=True)
@@ -38,6 +30,7 @@ class Round(models.Model):
 
 class Options(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    simulation_status = models.BooleanField(default=False)  # False -> simulation is not running
 
     step = models.PositiveIntegerField(
         default=2,
