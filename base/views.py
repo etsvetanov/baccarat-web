@@ -9,7 +9,6 @@ from django import db
 
 
 user_processes = {}
-# shared_signals = {}
 
 
 @login_required
@@ -64,7 +63,6 @@ def simulate(request):
 
 @login_required
 def start_sim(request):
-    # user_options = request.user.options
     username = request.user.username
 
     if username in user_processes:
@@ -72,12 +70,8 @@ def start_sim(request):
             print('There is already a running process - cannot start sim')
             return HttpResponse('There is already a running process - cannot start sim')
 
-    # user_options.simulation_status = True
-    # user_options.save()
-
     db.connections.close_all()
-    # shared_value = Value('i', 0)
-    # shared_signals[request.user.username] = shared_value
+
     p = Process(target=worker, args=(request.user, ))
     p.start()
     user_processes[username] = p
@@ -86,22 +80,22 @@ def start_sim(request):
     return HttpResponse('A simulation should be started')
 
 
-@login_required
-def stop_sim(request):
-    user_options = request.user.options
-
-    try:
-        user_options.simulation_status = False
-        user_options.save()
-
-        # shared_value = shared_signals[request.user.username]
-        # with shared_value.get_lock():
-        #     print('Sending a stop signal to the process...')
-        #     shared_value.value = 1
-
-        return HttpResponse()
-    except KeyError:
-        return redirect('/simulate')
+# @login_required
+# def stop_sim(request):
+#     user_options = request.user.options
+#
+#     try:
+#         user_options.simulation_status = False
+#         user_options.save()
+#
+#         # shared_value = shared_signals[request.user.username]
+#         # with shared_value.get_lock():
+#         #     print('Sending a stop signal to the process...')
+#         #     shared_value.value = 1
+#
+#         return HttpResponse()
+#     except KeyError:
+#         return redirect('/simulate')
 
 
 def sign_in(request):

@@ -24,7 +24,7 @@ var chartData={
         "background-color":"#fbfbfb",
         "margin-top":"30px",
         "margin-bottom":"60px",
-        "margin-left":"100px",
+        "margin-left":"150px",
         "margin-right":"80px"
     },
     "scaleX":{

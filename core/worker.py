@@ -22,7 +22,7 @@ def worker(user):
     print("'fields' in worker():", fields)
     collector = Collector(fields=fields, user=user, buffer_size=200)
 
-    iterations = 20000
+    iterations = 600
     last_whole_percent = 0
     players = game.gamblers
     net_list = []
